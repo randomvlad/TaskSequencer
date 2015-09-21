@@ -1,0 +1,40 @@
+{
+	"name" : "How To Get Out Of Bed",
+	"tasks": [
+		{
+			"id": "A",
+			"name": "Hit snooze button",
+		 	"required": [ "B" ]
+		},
+		{
+			"id": "B",
+			"name": "Wake up to alarm",
+		 	"required": []
+		},
+		{
+			"id": "C",
+			"name": "Get out of bed",
+			"required": [ "E" ]
+		},
+		{
+			"id": "D",
+			"name": "Groan angrily at the world",
+			"required": [ "B" ]
+		},
+		{
+			"id": "E",
+			"name": "Wake up for real, turn off alarm",
+			"required": [ "D", "F", "G" ]
+		},
+		{
+			"id": "F",
+			"name": "Slumber for 9 minutes",
+			"required": [ "A" ]
+		}, 
+		{
+			"id": "G",
+			"name": "Rub eyes",
+			"required": [ "B" ]
+		}
+	]
+}

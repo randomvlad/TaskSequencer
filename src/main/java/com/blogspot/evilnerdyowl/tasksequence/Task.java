@@ -1,25 +1,25 @@
 package com.blogspot.evilnerdyowl.tasksequence;
 
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class Task {
-
+	
 	private String id;
 	private String name;
-	
-	// TODO: add support for required tasks
-	// private List<String> required;
+	private Set<String> required;
 
 	public Task() {
-		this( null, null );
+		setId( null );
+		setName( null );
+		this.setRequired( new LinkedHashSet<String>() );
 	}
-
-	public Task( String id, String name ) {
-		this.setId( id );
-		this.setName( name );
+	
+	public Task( String id ) {
+		setId( id );
 	}
 
 	public String getId() {
@@ -38,6 +38,20 @@ public class Task {
 		this.name = name;
 	}
 	
+	public Set<String> getRequired() {
+		return required;
+	}
+
+	public void setRequired( Set<String> required ) {
+		this.required = required;
+	}
+	
+	public void addRequired( String taskId ) {
+		if( taskId != null && ! taskId.isEmpty() ) {
+			this.required.add( taskId );	
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		return getId() != null ? getId().hashCode() : 0;

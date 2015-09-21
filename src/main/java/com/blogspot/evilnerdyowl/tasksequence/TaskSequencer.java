@@ -2,7 +2,7 @@ package com.blogspot.evilnerdyowl.tasksequence;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Set;
 
 public class TaskSequencer {
 
@@ -10,33 +10,30 @@ public class TaskSequencer {
 	public List<Task> sequence( List<Task> tasks ) {
 		List<Task> orderedTasks = new ArrayList<>();
 
-		orderedTasks.add( new Task( "1", "Wake Up" ) );
-		orderedTasks.add( new Task( "2", "Brush Teeth" ) );
-		orderedTasks.add( new Task( "3", "Floss Teeth" ) );
-		orderedTasks.add( new Task( "4", "Take Shower" ) );
+		topoSort( orderedTasks, tasks );
 
 		return orderedTasks;
 	}
 
-	// TODO: convert to Task objects
-	private void topoSort( List<String> sorted, Map<String, List<String>> outstanding ) {
+	private void topoSort( List<Task> sorted, List<Task> outstanding ) {
 		if ( outstanding.isEmpty() ) {
 			return;
 		}
 
-		for ( Map.Entry<String, List<String>> entry : outstanding.entrySet() ) {
-			String taskId = entry.getKey();
-			List<String> requiredTasks = entry.getValue();
+		for ( Task task : outstanding ) {
+			Set<String> requiredTaskIds = task.getRequired();
 
-			boolean satisfied = requiredTasks.stream().allMatch( requiredTask -> sorted.contains( requiredTask ) );
+			boolean satisfied = requiredTaskIds.stream()
+					.allMatch( requiredTaskId -> sorted.contains( new Task( requiredTaskId ) ) );
+
 			if ( satisfied ) {
-				sorted.add( taskId );
+				sorted.add( task );
 			}
 		}
 
-		for ( String taskId : sorted ) {
-			if ( outstanding.containsKey( taskId ) ) {
-				outstanding.remove( taskId );
+		for ( Task task : sorted ) {
+			if ( outstanding.contains( task ) ) {
+				outstanding.remove( task );
 			}
 		}
 
